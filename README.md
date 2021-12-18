@@ -40,7 +40,7 @@ The file `ints.py` is the library we use now for predicting the next integers.
 
 It provides two kinds of functions, `get_foo_integers` and `is_foo_integers`. You may want to write more of these kinds of functions to make the prediction more accurate.
 
-Just add more of them into the function `predict_next_ten_ints`.
+Just add more of them into the function `predict_next_ten_ints` in the `main.py`
 ```
 def predict_next_ten_ints(ints):
     ...
@@ -58,6 +58,8 @@ def predict_next_ten_ints(ints):
         return next_ten
     # Add your `is_foo_ints` and `get_foo_ints` logic here!
 ```
+
+See `main.py` and `ints.py` for more details.
 
 # TODO
 
