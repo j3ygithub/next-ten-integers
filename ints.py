@@ -6,7 +6,6 @@ import random
 from functools import wraps
 
 __all__ = [
-    "DEFAULT_LENGTH",
     "get_const_diff_ints",
     "is_const_diff_ints",
     "get_const_ratio_ints",
@@ -16,10 +15,8 @@ __all__ = [
     "get_random_ints",
 ]
 
-DEFAULT_LENGTH = 10
 
-
-def basic_ints_check(ints):
+def is_ints(ints):
     """Check the basic integer sequence things.
 
     These basic checks are a little tedious and verbose, so we've chosen to
@@ -36,63 +33,68 @@ def basic_ints_check(ints):
         return False
 
 
-def basic_ints_checked(ints_check_func):
-    """Decorator for performing `basic_ints_check` before `ints_check_func`."""
+def is_ints_checked(is_some_ints_func):
+    """Decorator for performing `is_ints` before `is_some_ints_func`."""
 
-    @wraps(ints_check_func)
+    @wraps(is_some_ints_func)
     def wrapper(ints):
-        if basic_ints_check(ints) is False:
+        if is_ints(ints) is False:
             return False
-        return ints_check_func(ints)
+        return is_some_ints_func(ints)
 
     return wrapper
 
 
-def get_const_diff_ints(first, diff, length=DEFAULT_LENGTH):
+def get_const_diff_ints(ints, length):
     """f(n) = an + b"""
+    first = ints[0]
+    diff = ints[1] - ints[0]
     return [first + diff * n for n in range(length)]
 
 
-@basic_ints_checked
+@is_ints_checked
 def is_const_diff_ints(ints):
-    diff = ints[1] - ints[0]
-    _ints = get_const_diff_ints(first=ints[0], diff=diff, length=len(ints))
+    _ints = get_const_diff_ints(ints, length=len(ints))
     return _ints == ints
 
 
-def get_const_ratio_ints(first, ratio, length=DEFAULT_LENGTH):
+def get_const_ratio_ints(ints, length):
     """f(n) = a(b^n)"""
+    first = ints[0]
+    ratio = int(ints[1] / ints[0])
     return [first * (ratio ** n) for n in range(length)]
 
 
-@basic_ints_checked
+@is_ints_checked
 def is_const_ratio_ints(ints):
     if 0 in ints:
         return False
-    ratio = ints[1] / ints[0]
-    _ints = get_const_ratio_ints(first=ints[0], ratio=ratio, length=len(ints))
+    _ints = get_const_ratio_ints(ints, length=len(ints))
     return _ints == ints
 
 
-def get_fibonacci_ints(first=0, second=1, length=DEFAULT_LENGTH):
+def get_fibonacci_ints(ints, length):
     """f(n) = f(n-1) + f(n-2)"""
+    first = ints[0]
+    second = ints[1]
     if length == 1:
         return [first]
     if length == 2:
         return [first, second]
-    ints = get_fibonacci_ints(first=first, second=second, length=length - 1)
+    ints = get_fibonacci_ints(ints, length=length - 1)
     ints.append(ints[-1] + ints[-2])
     return ints
 
 
-@basic_ints_checked
+@is_ints_checked
 def is_fibonacci_ints(ints):
-    _ints = get_fibonacci_ints(first=ints[0], second=ints[1], length=len(ints))
+    _ints = get_fibonacci_ints(ints, length=len(ints))
     return _ints == ints
 
 
-def get_parabolic_ints(a, b, c, length=DEFAULT_LENGTH):
+def get_parabolic_ints(ints, length):
     """f(n) = an^2 + bn + c"""
+    a, b, c = cal_parabolic_coefficients(ints)
     return [a * (n ** 2) + b * n + c for n in range(length)]
 
 
@@ -114,15 +116,15 @@ def cal_parabolic_coefficients(ints):
     return int(a), int(b), int(c)
 
 
-@basic_ints_checked
+@is_ints_checked
 def is_parabolic_ints(ints):
     if len(ints) < 3:
         # Connot tell
         return False
     a, b, c = cal_parabolic_coefficients(ints)
-    _ints = get_parabolic_ints(a, b, c, len(ints))
+    _ints = get_parabolic_ints(ints, length=len(ints))
     return _ints == ints
 
 
-def get_random_ints(minimum, maximum, length=DEFAULT_LENGTH):
+def get_random_ints(minimum, maximum, length):
     return [random.randint(minimum, maximum) for _ in range(length)]

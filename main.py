@@ -21,22 +21,25 @@ def predict_next_ten_ints(ints):
     sequence could satisfy more than two of those checks. This case, the
     previous one would be chosen.
     """
+    length=len(ints)
     if is_const_diff_ints(ints):
-        diff = ints[1] - ints[0]
-        return get_const_diff_ints(first=ints[-1] + diff, diff=diff)
+        whole = get_const_diff_ints(ints, length=length+10)
+        next_ten = whole[length:]
+        return next_ten
     if is_const_ratio_ints(ints):
-        ratio = int(ints[1] / ints[0])
-        return get_const_ratio_ints(first=ints[-1] * ratio, ratio=ratio)
+        whole = get_const_ratio_ints(ints, length=length+10)
+        next_ten = whole[length:]
+        return next_ten
     if is_fibonacci_ints(ints):
-        first = ints[-1] + ints[-2]
-        second = first + ints[-1]
-        return get_fibonacci_ints(first=first, second=second)
+        whole = get_fibonacci_ints(ints, length=length+10)
+        next_ten = whole[length:]
+        return next_ten
     if is_parabolic_ints(ints):
-        a, b, c = cal_parabolic_coefficients(ints)
-        parabolic_ints = get_parabolic_ints(a, b, c, length=len(ints) + 10)
-        next_ten_ints = parabolic_ints[len(ints) :]
-        return next_ten_ints
-    return get_random_ints(minimum=min(ints), maximum=max(ints))
+        whole = get_parabolic_ints(ints, length=length+10)
+        next_ten = whole[length:]
+        return next_ten
+    next_ten = get_random_ints(minimum=min(ints), maximum=max(ints), length=10)
+    return next_ten
 
 
 def pull_ints_from_command_args():

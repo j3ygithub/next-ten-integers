@@ -40,3 +40,25 @@ The file `ints.py` is the library we use now for predicting the next integers.
 
 It provides two kinds of functions, `get_foo_integers` and `is_foo_integers`. You may want to write more of these kinds of functions to make the prediction more accurate.
 
+Just add more of them into the function `predict_next_ten_ints`.
+```
+def predict_next_ten_ints(ints):
+    ...
+    if is_const_ratio_ints(ints):
+        whole = get_const_ratio_ints(ints, length=length+10)
+        next_ten = whole[length:]
+        return next_ten
+    if is_fibonacci_ints(ints):
+        whole = get_fibonacci_ints(ints, length=length+10)
+        next_ten = whole[length:]
+        return next_ten
+    if is_parabolic_ints(ints):
+        whole = get_parabolic_ints(ints, length=length+10)
+        next_ten = whole[length:]
+        return next_ten
+    # Add your `is_foo_ints` and `get_foo_ints` logic here!
+```
+
+# TODO
+
+Support an iterable as an integer sequence input of `predict_next_ten_ints` in `main.py` and generate an iterable as well.
