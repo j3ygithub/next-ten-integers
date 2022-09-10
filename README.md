@@ -4,7 +4,7 @@ Some simple code snippets about predicting the next ten integers.
 # How to run it?
 
 ```python
-git clone https://github.com/j3ygh/next-ten-integers
+git clone https://github.com/thejimmylin/next-ten-integers
 cd next-ten-integers
 
 python3 main.py 1 2 3
